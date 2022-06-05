@@ -10,9 +10,22 @@ export class V1Service {
     @InjectRepository(Card)
     private readonly cardsRepository: Repository<Card>,
   ) {}
-  findAllNames(): string[] {
-    console.log('LOG→ run find all names');
-    return [];
+  async findAllNames(): Promise<string[]> {
+    const allcards = await this.cardsRepository.find({
+      where: 'status<>"delete"',
+      order: { id: 'DESC' },
+    });
+
+    return allcards
+      .map((c) => {
+        let assetCommonName = c['asset'];
+        if (c['assetLongname'] != null) {
+          assetCommonName = c['assetLongname'];
+        }
+
+        return assetCommonName;
+      })
+      .filter((nullable) => nullable !== null) as string[];
   }
 
   findAll(): CardDetail[] {

@@ -1,4 +1,4 @@
-import { Controller, Get, Post } from '@nestjs/common';
+import { Controller, Get, Logger, Post } from '@nestjs/common';
 import { v1RootPath } from '../../path';
 import {
   BanListResponse,
@@ -14,7 +14,10 @@ export class V1Controller {
 
   @Get('/card_list')
   async findAllNames(): Promise<CardListResponse> {
-    return new CardListResponse(this.v1Service.findAllNames());
+    Logger.log('[V1] GET: /card_list');
+    const cardNames = await this.v1Service.findAllNames();
+
+    return new CardListResponse(cardNames);
   }
 
   @Get('/card_detail')

@@ -20,6 +20,7 @@ describe('Job', () => {
     });
 
     it('should be fetch and set 1000 monacards', async () => {
+      // モックに入れ替える
       await job.readNewMonacard();
 
       const cardRepo = await connection.getRepository(Card);
