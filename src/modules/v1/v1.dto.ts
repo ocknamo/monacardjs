@@ -1,4 +1,31 @@
-import { CardDetail } from './v1.interface';
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
+import { Transform } from 'class-transformer';
+import { IsNumber, IsOptional, IsString } from 'class-validator';
+import { Card } from 'src/entity';
+
+// TODO: OPEN API
+
+/**
+ * Request
+ */
+export class CardDetailsRequest {
+  @IsOptional()
+  @IsString()
+  assets?: string;
+
+  @IsOptional()
+  @IsString()
+  tag?: string;
+
+  @IsOptional()
+  @Transform((p) => Number(p.value))
+  @IsNumber()
+  update_time?: number;
+}
+
+/**
+ * Response
+ */
 
 export class CardListResponse {
   list: string[];
@@ -11,8 +38,8 @@ export class CardDetailResponse {
   id: string;
   asset_common_name: string;
   asset: string;
-  asset_longname: string;
-  assetgroup: string;
+  asset_longname: string | null;
+  assetgroup: string | null;
   card_name: string;
   owner_name: string;
   imgur_url: string;
@@ -25,31 +52,31 @@ export class CardDetailResponse {
   is_good_status: boolean;
   regist_time: string;
   update_time: string;
-  constructor(detail: CardDetail) {
-    this.id = detail.id;
-    this.asset_common_name = detail.assetCommonName;
-    this.asset = detail.asset;
-    this.asset_longname = detail.assetLongname;
-    this.assetgroup = detail.assetgroup;
-    this.card_name = detail.cardName;
-    this.owner_name = detail.ownerName;
-    this.imgur_url = detail.imgurUrl;
-    this.add_description = detail.addDescription;
-    this.tw_id = detail.twId;
-    this.tw_name = detail.twName;
-    this.tag = detail.tag;
-    this.cid = detail.cid;
-    this.ver = detail.ver.toString();
-    this.is_good_status = detail.isGoodStatus;
-    this.regist_time = detail.registTime.toString();
-    this.update_time = detail.updateTime.toString();
+  constructor(card: Card) {
+    this.id = card.id!;
+    this.asset_common_name = card.assetLongname || card.asset!;
+    this.asset = card.asset!;
+    this.asset_longname = card.assetLongname;
+    this.assetgroup = card.assetGroup;
+    this.card_name = card.name!;
+    this.owner_name = card.issuer!;
+    this.imgur_url = card.imgur ?? '';
+    this.add_description = card.description ?? '';
+    this.tw_id = ''; // 未実装
+    this.tw_name = ''; // 未実装
+    this.tag = card.tag;
+    this.cid = card.cid;
+    this.ver = card.ver.toString();
+    this.is_good_status = card.status === 'ok';
+    this.regist_time = card.registTime!.getTime().toString();
+    this.update_time = card.updateTime!.getTime().toString();
   }
 }
 
 export class CardDetailsResponse {
   details: CardDetailResponse[];
-  constructor(details: CardDetail[]) {
-    this.details = details.map((d) => new CardDetailResponse(d));
+  constructor(cards: Card[]) {
+    this.details = cards.map((c) => new CardDetailResponse(c));
   }
 }
 
