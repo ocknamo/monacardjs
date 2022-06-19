@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Card } from '../../entity';
@@ -28,12 +28,11 @@ export class V1Service {
       .filter((nullable) => nullable !== null) as string[];
   }
 
-  findAll(query: CardDetailsRequest): Promise<Card[]> {
-    console.log('LOG→ run find all', query);
-    const { assets, tag, update_time } = query;
+  findAll(dto: CardDetailsRequest): Promise<Card[]> {
+    const { assets, tag, update_time } = dto;
 
     if (!assets && !tag && !update_time) {
-      throw new Error('No parameters.'); // TODO: 400 error
+      throw new HttpException('No parameters.', HttpStatus.BAD_REQUEST);
     }
 
     const assetArr: string[] | undefined = assets?.split(',');
@@ -44,7 +43,10 @@ export class V1Service {
       // トークンの命名規則に合っていない場合
       assetArr.forEach((as) => {
         if (!/^[a-zA-Z0-9\.\-_@!,]+$/.test(as)) {
-          throw new Error(`Incorrect parameters. asset: ${as}`); // TODO: 400 error
+          throw new HttpException(
+            `Incorrect parameters. asset: ${as}`,
+            HttpStatus.BAD_REQUEST,
+          );
         }
       });
 
@@ -69,6 +71,7 @@ export class V1Service {
 
   findAllBanlist(): { asset: string; status: string; updateTime: string }[] {
     console.log('LOG→ run find all ban list');
+    // TODO: 実装する
     return [];
   }
 }

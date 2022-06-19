@@ -1,4 +1,4 @@
-import { Controller, Get, Logger, Post, Query } from '@nestjs/common';
+import { Body, Controller, Get, Post, Query } from '@nestjs/common';
 import { v1RootPath } from '../../path';
 import {
   BanListResponse,
@@ -15,8 +15,6 @@ export class V1Controller {
 
   @Get('/card_list')
   async findAllNames(): Promise<CardListResponse> {
-    Logger.log('[V1] GET: /card_list'); // TODO: インターセプターに実装する
-
     return new CardListResponse(await this.v1Service.findAllNames());
   }
 
@@ -24,17 +22,15 @@ export class V1Controller {
   async findDetails(
     @Query() query: CardDetailsRequest,
   ): Promise<CardDetailsResponse> {
-    Logger.log('[V1] GET: /card_detail'); // TODO: インターセプターに実装する
-
     return new CardDetailsResponse(await this.v1Service.findAll(query));
   }
 
   // urlが長くなりすぎることに対する対策
   @Post('/card_detail_post')
   async findDetailsPost(
-    @Query() query: CardDetailsRequest,
+    @Body() body: CardDetailsRequest,
   ): Promise<CardDetailsResponse> {
-    return new CardDetailsResponse(await this.v1Service.findAll(query));
+    return new CardDetailsResponse(await this.v1Service.findAll(body));
   }
 
   @Get('/ban_list')

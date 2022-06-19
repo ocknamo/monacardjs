@@ -115,6 +115,9 @@ IPFSのファイルをPINしていただける場合基本的にこのAPIを使�
 
 ## error
 
-```json
-{"error":{"message":"Error message here."}}
+```typescript
+{
+  statusCode: number,
+  error: { message: string }
+}
 ```
