@@ -3,32 +3,36 @@ import { parseDescription } from 'monacardjs/utils';
 import { Card } from '../../entity';
 import { Connection } from 'typeorm';
 import { Database } from './database';
+import { Logger } from '@nestjs/common';
 
 export class Job {
-  private _connection: Promise<Connection>;
-
-  constructor(connection?: Promise<Connection>) {
-    if (connection) {
-      this._connection = connection;
-    } else {
+  private readonly logger = new Logger(Job.name);
+  constructor(
+    private connection?: Promise<Connection>,
+    private cpApi?: CounterpartyClientService,
+  ) {
+    if (!connection) {
       const db = new Database();
-      this._connection = db.getConnection();
+      this.connection = db.getConnection();
     }
   }
 
   async readNewMonacard(): Promise<void> {
-    const connection = await this._connection;
+    if (!this.connection) {
+      throw new Error('Invalid connection.');
+    }
+    const connect = await this.connection;
 
     try {
-      const result = await connection.query(
+      const result = await connect.query(
         'select max(txIndex) as lastTxIndex from card',
       );
 
       const { lastTxIndex } = result[0];
 
-      console.log('[readNewMonacard] lastTxIndex is ', lastTxIndex);
+      this.logger.log(`[readNewMonacard] lastTxIndex is ${lastTxIndex}`);
 
-      const api = new CounterpartyClientService();
+      const api = this.cpApi || new CounterpartyClientService();
       const issuances = await api.getIssuancesTxIndex(lastTxIndex ?? 0);
 
       const cards = issuances
@@ -36,15 +40,9 @@ export class Job {
           const desc = parseDescription(i.description);
 
           if (2000 < (desc?.addDescription.length || 0)) {
-            console.log(`[readNewMonacard] Over 2000 description.`);
-            console.log(`[readNewMonacard] Asset`, i.asset);
-            console.log(
-              `[readNewMonacard] addDescription`,
-              desc?.addDescription,
-            );
-            console.log(
-              `[readNewMonacard] addDescription length`,
-              desc?.addDescription.length,
+            this.logger.log(
+              `[readNewMonacard] Over 2000 description. asset: `,
+              i.asset,
             );
           }
 
@@ -72,7 +70,7 @@ export class Job {
        * Insert when entity has new `id` or `asset`.
        * In otherwise update entity.
        */
-      await connection
+      await connect
         .createQueryBuilder()
         .insert()
         .into(Card)

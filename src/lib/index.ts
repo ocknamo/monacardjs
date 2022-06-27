@@ -1,5 +1,6 @@
 export * from './api';
 export * from './utils';
+export * from './test';
 
 /**
  * monacard2 description
