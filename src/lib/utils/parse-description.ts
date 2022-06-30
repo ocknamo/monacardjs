@@ -1,11 +1,13 @@
+import { Logger } from '@nestjs/common';
 import { Description } from '../index';
 
 export function parseDescription(text: string): Description | undefined {
+  const logger = new Logger('parseDescription');
   let json: object | undefined = undefined;
   try {
     json = JSON.parse(text);
   } catch (error) {
-    console.warn(`Source text is invalid. I cant parse to json. text: ${text}`);
+    logger.warn(`Source text is invalid. I cant parse to json. text: ${text}`);
     return undefined;
   }
 
