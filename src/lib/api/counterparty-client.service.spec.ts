@@ -1,17 +1,46 @@
-import { CounterpartyClientService } from './counterparty-client.service';
+import {
+  CounterpartyClientService,
+  COUNTERPARTY_API_URL,
+  headers,
+  id,
+  jsonrpc,
+} from './counterparty-client.service';
+import { AxiosStatic } from 'axios';
 
-// Skip tests using actual API.
-describe.skip('CounterpartyClientService', () => {
+describe('CounterpartyClientService', () => {
   let counterpartyClientService: CounterpartyClientService;
+  const mockAxios = {} as AxiosStatic;
+
   beforeEach(() => {
-    counterpartyClientService = new CounterpartyClientService();
+    counterpartyClientService = new CounterpartyClientService(mockAxios);
+    // mocking
+    mockAxios.post = jest
+      .fn()
+      .mockResolvedValueOnce({ data: { result: ['mock response'] } });
+  });
+
+  afterEach(() => {
+    jest.resetAllMocks();
   });
 
   describe('getAssetInfo', () => {
     it('should be get asset info', async () => {
       const result = await counterpartyClientService.getAssetInfo('MPCHAIN');
 
-      console.log('LOG getAssetInfo→', result);
+      expect(result).toBe('mock response');
+
+      expect(mockAxios.post).toHaveBeenCalledWith(
+        COUNTERPARTY_API_URL,
+        {
+          jsonrpc,
+          id,
+          method: 'get_assets_info',
+          params: {
+            assetsList: ['MPCHAIN'],
+          },
+        },
+        { headers },
+      );
     });
   });
 
@@ -20,7 +49,28 @@ describe.skip('CounterpartyClientService', () => {
       const result = await counterpartyClientService.getBroadcast(
         '6ae8a9bd6fb7a97a4ad1c5556bad152ff93c3c7650b0358e80a7d0460882bbc5',
       );
-      console.log('LOG getBroadcast→', result);
+
+      expect(result).toBe('mock response');
+      expect(mockAxios.post).toHaveBeenCalledWith(
+        COUNTERPARTY_API_URL,
+        {
+          jsonrpc,
+          id,
+          method: 'proxy_to_counterpartyd',
+          params: {
+            method: 'get_broadcasts',
+            params: {
+              filters: {
+                field: 'tx_hash',
+                op: '==',
+                value:
+                  '6ae8a9bd6fb7a97a4ad1c5556bad152ff93c3c7650b0358e80a7d0460882bbc5',
+              },
+            },
+          },
+        },
+        { headers },
+      );
     });
   });
 
@@ -28,7 +78,27 @@ describe.skip('CounterpartyClientService', () => {
     it('should get issuances', async () => {
       const result = await counterpartyClientService.getIssuances(2446815);
 
-      console.log('LOG getIssuances→', result);
+      expect(result).toEqual(['mock response']);
+      expect(mockAxios.post).toHaveBeenCalledWith(
+        COUNTERPARTY_API_URL,
+        {
+          jsonrpc,
+          id,
+          method: 'proxy_to_counterpartyd',
+          params: {
+            method: 'get_issuances',
+            params: {
+              filters: [
+                { field: 'block_index', op: '>=', value: 2446815 },
+                { field: 'description', op: 'LIKE', value: '%monacard%' },
+              ],
+              order_by: 'tx_index',
+              order_dir: 'ASC',
+            },
+          },
+        },
+        { headers },
+      );
     });
   });
 
@@ -36,7 +106,28 @@ describe.skip('CounterpartyClientService', () => {
     it('should get issuances by TxIndex', async () => {
       const result = await counterpartyClientService.getIssuancesTxIndex(0);
 
-      console.log('LOG getIssuances→', result);
+      expect(result).toEqual(['mock response']);
+
+      expect(mockAxios.post).toHaveBeenCalledWith(
+        COUNTERPARTY_API_URL,
+        {
+          jsonrpc,
+          id,
+          method: 'proxy_to_counterpartyd',
+          params: {
+            method: 'get_issuances',
+            params: {
+              filters: [
+                { field: 'tx_index', op: '>', value: 0 },
+                { field: 'description', op: 'LIKE', value: '%monacard%' },
+              ],
+              order_by: 'tx_index',
+              order_dir: 'ASC',
+            },
+          },
+        },
+        { headers },
+      );
     });
   });
 });
