@@ -12,6 +12,7 @@ export class V1Service {
   ) {}
   async findAllNames(): Promise<string[]> {
     const allcards = await this.cardsRepository.find({
+      select: ['asset', 'assetLongname'],
       where: 'status<>"delete"',
       order: { id: 'DESC' },
     });
@@ -62,11 +63,11 @@ export class V1Service {
 
     if (update_time) {
       qb.andWhere('updateTime > :updateTime', {
-        updateTime: update_time,
+        updateTime: new Date(update_time),
       });
     }
 
-    return qb.getMany();
+    return qb.orderBy({ id: 'DESC' }).getMany();
   }
 
   findAllBanlist(): { asset: string; status: string; updateTime: string }[] {
