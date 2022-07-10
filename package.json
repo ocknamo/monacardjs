@@ -27,9 +27,9 @@
     "migration:revert": "yarn ts-node node_modules/.bin/typeorm migration:revert",
     "migration:show": "yarn ts-node node_modules/.bin/typeorm migration:show",
     "init:db": "yarn migration:run",
-    "desc:testdb": "mysql -h 127.0.0.1 -P 3307  -u test -p test --password=password -e 'desc card'",
-    "select:testdb": "mysql -h 127.0.0.1 -P 3307  -u test -p test --password=password -e 'SELECT * FROM card ORDER BY id DESC LIMIT 10'",
-    "drop:testdb": "mysql -h 127.0.0.1 -P 3307  -u test -p test --password=password -e 'DROP TABLE IF EXISTS `card`'"
+    "testdb:desc": "mysql -h 127.0.0.1 -P 3307  -u test -p test --password=password -e 'desc card'",
+    "testdb:select": "mysql -h 127.0.0.1 -P 3307  -u test -p test --password=password -e 'SELECT * FROM card ORDER BY id DESC LIMIT 10'",
+    "testdb:drop": "mysql -h 127.0.0.1 -P 3307  -u test -p test --password=password -e 'DROP TABLE IF EXISTS `card`'"
   },
   "dependencies": {
     "@nestjs/common": "^8.0.0",

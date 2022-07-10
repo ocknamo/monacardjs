@@ -2,7 +2,6 @@ import { Body, Controller, Get, Post, Query } from '@nestjs/common';
 import { v1RootPath } from '../../path';
 import {
   BanListResponse,
-  BanResponse,
   CardDetailsRequest,
   CardDetailsResponse,
   CardListResponse,
@@ -35,10 +34,6 @@ export class V1Controller {
 
   @Get('/ban_list')
   async findBanlist(): Promise<BanListResponse> {
-    return new BanListResponse(
-      this.v1Service
-        .findAllBanlist()
-        .map((res) => new BanResponse(res.asset, res.status, res.updateTime)),
-    );
+    return new BanListResponse(await this.v1Service.findAllBanlist());
   }
 }

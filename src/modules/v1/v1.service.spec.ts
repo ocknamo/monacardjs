@@ -226,4 +226,23 @@ describe('V1Services', () => {
       }
     });
   });
+
+  describe('findAllBanlist', () => {
+    it('should find all ban list', async () => {
+      let mockCard1 = { ...getMockCard('01'), status: 'copyright' };
+      let mockCard2 = { ...getMockCard('02'), status: 'good' };
+      let mockCard3 = { ...getMockCard('03'), status: 'publicity' };
+
+      [mockCard1, mockCard2, mockCard3] = await repository.save([
+        mockCard1,
+        mockCard2,
+        mockCard3,
+      ]);
+
+      const res = await service.findAllBanlist();
+      expect(res).toHaveLength(2);
+      expect(res[0]).toEqual(mockCard3);
+      expect(res[1]).toEqual(mockCard1);
+    });
+  });
 });

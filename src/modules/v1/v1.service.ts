@@ -1,6 +1,6 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Not, Repository } from 'typeorm';
 import { Card } from '../../entity';
 import { CardDetailsRequest } from './v1.dto';
 
@@ -70,9 +70,10 @@ export class V1Service {
     return qb.orderBy({ id: 'DESC' }).getMany();
   }
 
-  findAllBanlist(): { asset: string; status: string; updateTime: string }[] {
-    console.log('LOG→ run find all ban list');
-    // TODO: 実装する
-    return [];
+  findAllBanlist(): Promise<Card[]> {
+    return this.cardsRepository.find({
+      where: { status: Not('good') },
+      order: { id: 'DESC' },
+    });
   }
 }

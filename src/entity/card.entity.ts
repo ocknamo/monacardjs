@@ -11,8 +11,8 @@ export class Card {
   @PrimaryGeneratedColumn()
   readonly id?: string;
 
-  @Column('varchar', { unique: true, default: null })
-  asset: string | null;
+  @Column('varchar', { unique: true })
+  asset: string;
 
   @Column('varchar', { default: null })
   assetLongname: string | null;
@@ -32,7 +32,11 @@ export class Card {
   @Column('varchar', { length: 6000, default: null })
   description: string | null;
 
-  @Column('varchar', { length: 100, default: 'good' })
+  @Column('varchar', {
+    length: 100,
+    default: 'good',
+    comment: 'good or reason of ban',
+  })
   status: string;
 
   @Column({ default: '' })
@@ -57,7 +61,7 @@ export class Card {
   readonly updateTime?: Date;
 
   constructor(
-    asset: string | null,
+    asset: string,
     assetLongname: string | null,
     assetGroup: string | null,
     name: string | null,

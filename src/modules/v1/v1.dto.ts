@@ -84,16 +84,16 @@ export class BanResponse {
   asset: string;
   status: string;
   update_time: string;
-  constructor(asset: string, status: string, updateTime: string) {
-    this.asset = asset;
-    this.status = status;
-    this.update_time = updateTime;
+  constructor(card: Card) {
+    this.asset = card.asset;
+    this.status = card.status;
+    this.update_time = card.updateTime!.getTime().toString();
   }
 }
 
 export class BanListResponse {
   list: BanResponse[];
-  constructor(banlist: BanResponse[]) {
-    this.list = banlist;
+  constructor(banCards: Card[]) {
+    this.list = banCards.map((card) => new BanResponse(card));
   }
 }
