@@ -1,30 +1,13 @@
 import { Card } from '../../entity';
 import { Repository } from 'typeorm/repository/Repository';
-import { TestDatabase } from '../../lib/test';
 import { V1Service } from './v1.service';
 import { HttpException, HttpStatus } from '@nestjs/common';
+import { getMockCard, TestDatabase } from 'monacardjs/test';
 
 describe('V1Services', () => {
   let repository: Repository<Card>;
   let db: TestDatabase;
   let service: V1Service;
-
-  const getMockCard = (suffix: string) =>
-    new Card(
-      `asset_${suffix}`,
-      `assetLongname_${suffix}`,
-      `assetGroup_${suffix}`,
-      `name_${suffix}`,
-      `issuer_${suffix}`,
-      `imgur_${suffix}`,
-      `description_${suffix}`,
-      `status_${suffix}`,
-      `tag_${suffix}`,
-      `cid_${suffix}`,
-      `ver_${suffix}`,
-      `txHash_${suffix}`,
-      9999,
-    );
 
   beforeAll(async () => {
     db = new TestDatabase();
@@ -37,7 +20,6 @@ describe('V1Services', () => {
   afterAll(async () => {
     await db.tearDown();
   });
-  // afterEach(() => {})
 
   describe('findAllNames', () => {
     it('should find all names', async () => {
