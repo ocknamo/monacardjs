@@ -1,14 +1,15 @@
 import axios from 'axios';
 import { AssetInfo, Broadcast, Issuance, JsonRpcResponseBase } from './type';
 
-// TODO: Get from config.
-export const COUNTERPARTY_API_URL = 'https://monapa.electrum-mona.org/_api';
 export const jsonrpc = '2.0';
 export const id = 0;
 export const headers = { 'content-type': 'application/json' };
 
 export class CounterpartyClientService {
-  constructor(private readonly api: typeof axios = axios) {}
+  constructor(
+    private readonly url,
+    private readonly api: typeof axios = axios,
+  ) {}
   async getAssetInfo(assetName: string): Promise<AssetInfo> {
     const { result } = await this.readApi<JsonRpcResponseBase<AssetInfo[]>>(
       'get_assets_info',
@@ -80,8 +81,11 @@ export class CounterpartyClientService {
   }
 
   private async readBase<T>(data: object): Promise<T> {
+    if (!this.url) {
+      throw new Error(`Invalid counterparty Api Url. url ${this.url}`);
+    }
     try {
-      const response = await this.api.post<T>(COUNTERPARTY_API_URL, data, {
+      const response = await this.api.post<T>(this.url, data, {
         headers,
       });
 

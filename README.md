@@ -77,6 +77,12 @@ $ yarn build
 $ node ./dist/src/worker/read-new-monacard.js
 ```
 
+## Setting of environment value
+
+Create `.env` file in root directory from `.env.org`.
+
+Hint: This application uses [dotenv](https://github.com/motdotla/dotenv).
+
 ## Test
 
 ```bash

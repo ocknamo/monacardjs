@@ -1,6 +1,11 @@
 import { Database } from './class/database';
 import { Job } from './class/job';
 
+import * as dotenv from 'dotenv';
+
+// Setup env
+dotenv.config();
+
 async function main(): Promise<void> {
   console.log('[readNewMonacard] Start worker');
   const db = new Database();

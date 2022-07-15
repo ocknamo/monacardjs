@@ -13,5 +13,6 @@ const config: Config.InitialOptions = {
   moduleNameMapper: {
     '^monacardjs/(.*)$': '<rootDir>/lib/$1',
   },
+  setupFiles: ['<rootDir>/setup-test.ts'],
 };
 export default config;

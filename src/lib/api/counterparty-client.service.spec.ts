@@ -1,6 +1,5 @@
 import {
   CounterpartyClientService,
-  COUNTERPARTY_API_URL,
   headers,
   id,
   jsonrpc,
@@ -12,7 +11,10 @@ describe('CounterpartyClientService', () => {
   const mockAxios = {} as AxiosStatic;
 
   beforeEach(() => {
-    counterpartyClientService = new CounterpartyClientService(mockAxios);
+    counterpartyClientService = new CounterpartyClientService(
+      'api_url',
+      mockAxios,
+    );
     // mocking
     mockAxios.post = jest
       .fn()
@@ -30,7 +32,7 @@ describe('CounterpartyClientService', () => {
       expect(result).toBe('mock response');
 
       expect(mockAxios.post).toHaveBeenCalledWith(
-        COUNTERPARTY_API_URL,
+        'api_url',
         {
           jsonrpc,
           id,
@@ -52,7 +54,7 @@ describe('CounterpartyClientService', () => {
 
       expect(result).toBe('mock response');
       expect(mockAxios.post).toHaveBeenCalledWith(
-        COUNTERPARTY_API_URL,
+        'api_url',
         {
           jsonrpc,
           id,
@@ -80,7 +82,7 @@ describe('CounterpartyClientService', () => {
 
       expect(result).toEqual(['mock response']);
       expect(mockAxios.post).toHaveBeenCalledWith(
-        COUNTERPARTY_API_URL,
+        'api_url',
         {
           jsonrpc,
           id,
@@ -109,7 +111,7 @@ describe('CounterpartyClientService', () => {
       expect(result).toEqual(['mock response']);
 
       expect(mockAxios.post).toHaveBeenCalledWith(
-        COUNTERPARTY_API_URL,
+        'api_url',
         {
           jsonrpc,
           id,

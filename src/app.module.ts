@@ -1,4 +1,5 @@
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -7,19 +8,22 @@ import { Card } from './entity';
 import { CidModule } from './modules/cid/cid.module';
 import { V1Module } from './modules/v1/v1.module';
 
+const configService = new ConfigService();
+
 @Module({
   imports: [
+    ConfigModule.forRoot(),
     V1Module,
     CidModule,
     TypeOrmModule.forRoot({
       type: 'mysql',
-      host: '127.0.0.1',
-      port: 3307,
-      username: 'test',
-      password: 'password',
-      database: 'test',
+      host: configService.get<string>('DATABASE_HOST'),
+      port: configService.get<number>('DATABASE_PORT'),
+      username: configService.get<string>('DATABASE_USER'),
+      password: configService.get<string>('DATABASE_PASSWORD'),
+      database: configService.get<string>('DATABASE_NAME'),
       entities: [Card],
-      synchronize: true,
+      synchronize: false,
     }),
   ],
   controllers: [AppController],

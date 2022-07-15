@@ -32,7 +32,10 @@ export class Job {
 
       this.logger.log(`[readNewMonacard] lastTxIndex is ${lastTxIndex}`);
 
-      const api = this.cpApi || new CounterpartyClientService();
+      const counterpartyApiUrl = process.env.COUNTERPARTY_API_URL;
+
+      const api =
+        this.cpApi || new CounterpartyClientService(counterpartyApiUrl);
       const issuances = await api.getIssuancesTxIndex(lastTxIndex ?? 0);
 
       const cards = issuances
