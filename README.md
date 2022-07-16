@@ -4,6 +4,8 @@
 
 Nodejs implementation of Monacard.
 
+It uses JavaScript, is built with TypeScript.
+
 ## Installation
 
 ```bash
