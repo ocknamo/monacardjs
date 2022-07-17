@@ -18,7 +18,7 @@
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "bash test/init_db_for_e2e_test.sh && jest --config ./test/jest-e2e.json --forceExit",
+    "test:e2e": "TZ=utc && bash test/init_db_for_e2e_test.sh && jest --config ./test/jest-e2e.json --forceExit",
     "docker:up": "docker-compose -f ./docker/docker-compose.yml up -d",
     "docker:down": "docker-compose -f ./docker/docker-compose.yml down",
     "init:db": "yarn schema:sync",

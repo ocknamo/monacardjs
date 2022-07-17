@@ -47,8 +47,8 @@ describe('AppController (e2e)', () => {
               cid: 'cid_03',
               ver: 'ver_03',
               is_good_status: false,
-              regist_time: '1658041828952',
-              update_time: '1658041828952',
+              regist_time: '1658074228952',
+              update_time: '1658074228952',
             },
           ],
         });
@@ -77,8 +77,8 @@ describe('AppController (e2e)', () => {
               cid: 'cid_01',
               ver: 'ver_01',
               is_good_status: false,
-              regist_time: '1658041828940',
-              update_time: '1658041828940',
+              regist_time: '1658074228940',
+              update_time: '1658074228940',
             },
           ],
         });
@@ -93,12 +93,12 @@ describe('AppController (e2e)', () => {
             {
               asset: 'asset_03',
               status: 'publicity',
-              update_time: '1658041828952',
+              update_time: '1658074228952',
             },
             {
               asset: 'asset_01',
               status: 'copyright',
-              update_time: '1658041828940',
+              update_time: '1658074228940',
             },
           ],
         });
@@ -111,7 +111,7 @@ describe('AppController (e2e)', () => {
         .get('/api/v1/cid_list')
         .expect(200)
         .expect({
-          list: [{ cid: 'cid_02', update_time: '1658041828948' }],
+          list: [{ cid: 'cid_02', update_time: '1658074228948' }],
         });
     });
   });

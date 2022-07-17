@@ -29,7 +29,7 @@ jobs:
     - run: yarn docker:up
     - run: yarn install --frozen-lockfile
     - run: yarn build
-    - run: sleep 10
+    - run: sleep 5
     - run: yarn init:db
     - run: yarn test:cov
 
@@ -52,8 +52,9 @@ jobs:
     - run: yarn docker:up
     - run: yarn install --frozen-lockfile
     - run: yarn build
-    - run: sleep 10
+    - run: sleep 5
     - run: cp .env.test .env
+    - run: TZ=utc
     - run: yarn test:e2e
 
   lint:
