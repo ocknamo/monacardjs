@@ -46,5 +46,5 @@ jobs:
         cache: 'yarn' 
     - run: yarn install --frozen-lockfile
     - run: yarn lint
-    - run: yarn Format
+    - run: yarn format
     - run: git diff --exit-code
