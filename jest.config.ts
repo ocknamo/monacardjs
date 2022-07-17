@@ -14,5 +14,6 @@ const config: Config.InitialOptions = {
     '^monacardjs/(.*)$': '<rootDir>/lib/$1',
   },
   setupFiles: ['<rootDir>/setup-test.ts'],
+  maxWorkers: 1,
 };
 export default config;

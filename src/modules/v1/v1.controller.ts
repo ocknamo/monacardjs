@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, Query } from '@nestjs/common';
+import { Body, Controller, Get, HttpCode, Post, Query } from '@nestjs/common';
 import { v1RootPath } from '../../path';
 import {
   BanListResponse,
@@ -26,6 +26,7 @@ export class V1Controller {
 
   // urlが長くなりすぎることに対する対策
   @Post('/card_detail_post')
+  @HttpCode(200)
   async findDetailsPost(
     @Body() body: CardDetailsRequest,
   ): Promise<CardDetailsResponse> {

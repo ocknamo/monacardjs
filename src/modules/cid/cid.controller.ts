@@ -1,5 +1,5 @@
 import { Controller, Get, Query } from '@nestjs/common';
-import { v1RootPath } from 'src/path';
+import { v1RootPath } from '../../path';
 import { CidListResponse, CidRequest } from './cid.dto';
 import { CidService } from './cid.service';
 

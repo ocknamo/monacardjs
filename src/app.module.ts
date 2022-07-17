@@ -24,6 +24,7 @@ const configService = new ConfigService();
       database: configService.get<string>('DATABASE_NAME'),
       entities: [Card],
       synchronize: false,
+      keepConnectionAlive: true,
     }),
   ],
   controllers: [AppController],
