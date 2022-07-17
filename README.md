@@ -113,4 +113,4 @@ $ yarn format
 
 ## License
 
-[MIT licensed](LICENSE).
+[MIT licensed](https://github.com/ocknamo/monacardjs/blob/main/LICENCE).
