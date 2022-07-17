@@ -3,28 +3,31 @@
 ## Description
 
 Nodejs implementation of Monacard.
-
 It uses JavaScript, is built with TypeScript.
+This is implemented with reference to the [MonacardHub](https://github.com/nachat1/MonacardHub).
 
 ## Installation
 
 ```bash
-yarn
+$ yarn install --frozen-lockfile
 ```
 
-## docker
+## DB
 
-
-Start mysql.
+Start mysql DB for local.
 
 ```bash
-yarn docker:up
+// Start docker.
+$ yarn docker:up
+
+// initialize schema.
+$ yarn init:db
 ```
 
-Stop mysql.
+Stop mysql DB.
 
 ```bash
-yarn docker:down
+$ yarn docker:down
 ```
 
 ## Migration
@@ -32,25 +35,25 @@ yarn docker:down
 Generate
 
 ```bash
-yarn migration:generate
+$ yarn migration:generate
 ```
 
 Run.
 
 ```bash
-yarn migration:run
+$ yarn migration:run
 ```
 
 Revert previous migration.
 
 ```bash
-yarn migration:revert
+$ yarn migration:revert
 ```
 
 Show migration history.
 
 ```bash
-yarn migration:show
+$ yarn migration:show
 ```
 
 
