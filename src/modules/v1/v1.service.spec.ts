@@ -2,7 +2,7 @@ import { Card } from '../../entity';
 import { Repository } from 'typeorm/repository/Repository';
 import { V1Service } from './v1.service';
 import { HttpException, HttpStatus } from '@nestjs/common';
-import { getMockCard, TestDatabase } from 'monacardjs/test';
+import { getMockCard, TestDatabase } from '@monacardjs/lib';
 
 describe('V1Services', () => {
   let repository: Repository<Card>;

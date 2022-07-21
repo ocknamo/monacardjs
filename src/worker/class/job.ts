@@ -1,5 +1,5 @@
-import { CounterpartyClientService } from 'monacardjs/api';
-import { parseDescription } from 'monacardjs/utils';
+import { CounterpartyClientService } from '@monacardjs/lib';
+import { parseDescription } from '@monacardjs/lib';
 import { Card } from '../../entity';
 import { Connection } from 'typeorm';
 import { Database } from './database';

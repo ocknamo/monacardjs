@@ -1,4 +1,4 @@
-import { Issuance } from 'monacardjs/api';
+import { Issuance } from '@monacardjs/lib';
 
 const mockDescription = {
   monacard: {

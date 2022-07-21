@@ -1,5 +1,5 @@
-import { CounterpartyClientService } from 'monacardjs/api';
-import { mockIssuance } from 'monacardjs/test';
+import { CounterpartyClientService } from '@monacardjs/lib';
+import { mockIssuance } from '@monacardjs/lib';
 import { Connection } from 'typeorm';
 import { Card } from '../../entity';
 import { Database } from './database';

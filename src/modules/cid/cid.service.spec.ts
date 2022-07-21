@@ -1,6 +1,6 @@
 import { Card } from '../../entity';
 import { Repository } from 'typeorm';
-import { getMockCard, TestDatabase } from 'monacardjs/test';
+import { getMockCard, TestDatabase } from '@monacardjs/lib';
 import { CidService } from './cid.service';
 
 describe('CidServices', () => {

@@ -11,7 +11,7 @@ const config: Config.InitialOptions = {
   coverageDirectory: '../coverage',
   testEnvironment: 'node',
   moduleNameMapper: {
-    '^monacardjs/(.*)$': '<rootDir>/lib/$1',
+    '^@monacardjs/lib': '<rootDir>/lib/',
   },
   setupFiles: ['<rootDir>/setup-test.ts'],
   maxWorkers: 1,

@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { Transform } from 'class-transformer';
 import { IsNumber, IsOptional, IsString } from 'class-validator';
+import { escapeHtml } from '@monacardjs/lib';
 import { Card } from 'src/entity';
 
 // TODO: OPEN API
@@ -58,15 +59,15 @@ export class CardDetailResponse {
     this.asset = card.asset!;
     this.asset_longname = card.assetLongname;
     this.assetgroup = card.assetGroup;
-    this.card_name = card.name!;
-    this.owner_name = card.issuer!;
-    this.imgur_url = card.imgur ?? '';
-    this.add_description = card.description ?? '';
-    this.tw_id = ''; // 未実装
-    this.tw_name = ''; // 未実装
-    this.tag = card.tag;
-    this.cid = card.cid;
-    this.ver = card.ver.toString();
+    this.card_name = escapeHtml(card.name ?? '');
+    this.owner_name = escapeHtml(card.issuer ?? '');
+    this.imgur_url = escapeHtml(card.imgur ?? '');
+    this.add_description = escapeHtml(card.description ?? '');
+    this.tw_id = escapeHtml(''); // 未実装
+    this.tw_name = escapeHtml(''); // 未実装
+    this.tag = escapeHtml(card.tag);
+    this.cid = escapeHtml(card.cid);
+    this.ver = escapeHtml(card.ver.toString());
     this.is_good_status = card.status === 'ok';
     this.regist_time = card.registTime!.getTime().toString();
     this.update_time = card.updateTime!.getTime().toString();
