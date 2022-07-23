@@ -91,6 +91,10 @@ Hint: This application uses [dotenv](https://github.com/motdotla/dotenv).
 ## Test
 
 ```bash
+# prepare
+$ yarn docker:up
+$ yarn init:db
+
 # unit tests
 $ yarn test
 
