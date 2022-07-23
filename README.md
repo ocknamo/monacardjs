@@ -115,6 +115,12 @@ $ yarn lint
 $ yarn format
 ```
 
+## Build docker image
+
+```bash
+$ docker image build -t example/monacoinjs:0.0.1 .
+```
+
 ## License
 
 [MIT licensed](https://github.com/ocknamo/monacardjs/blob/main/LICENCE).
