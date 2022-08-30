@@ -1,5 +1,14 @@
 # API
 
+## GET /api/health
+
+ヘルスチェック
+
+```
+// Success response
+114514
+```
+
 ## GET /api/v1/card_list
 
 カード化トークン名一覧取得。
