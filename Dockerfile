@@ -25,4 +25,8 @@ RUN if [ ! -f ".env" ]; then cp .env.org .env ; fi
 
 HEALTHCHECK --interval=30s --timeout=30s --start-period=5s --retries=3 CMD curl -f http://localhost/api/health || exit 1
 
+# api
+# ["node", "dist/src/main"]
+# worker
+# ["node", "./dist/src/worker/read-new-monacard.js"]
 CMD ["node", "dist/src/main"]

@@ -30,6 +30,7 @@ jobs:
     - run: yarn install --frozen-lockfile
     - run: yarn build
     - run: sleep 5
+    - run: cp .env.test .env
     - run: yarn init:db
     - run: yarn test:cov
 
