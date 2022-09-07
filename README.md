@@ -79,7 +79,7 @@ Worker is not nestjs application. So you can run it as just JavaScript or typesc
 ``` bash
 // example
 $ yarn build
-$ node ./dist/src/worker/read-new-monacard.js
+$ node ./dist/src/worker/bin/read-new-monacard.js
 ```
 
 ## Setting of environment value

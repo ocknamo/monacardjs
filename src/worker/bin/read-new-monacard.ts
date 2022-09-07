@@ -1,5 +1,5 @@
-import { Database } from './class/database';
-import { Job } from './class/job';
+import { Database } from '../class/database';
+import { Job } from '../class/job';
 
 import * as dotenv from 'dotenv';
 
@@ -7,7 +7,7 @@ import * as dotenv from 'dotenv';
 dotenv.config();
 
 async function main(): Promise<void> {
-  console.log('[readNewMonacard] Start worker');
+  console.info('[readNewMonacard] Start worker');
   const db = new Database();
   try {
     const job = new Job(db.getConnection());

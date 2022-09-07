@@ -1,5 +1,6 @@
 import { CounterpartyClientService } from '@monacardjs/lib';
 import { mockIssuance } from '@monacardjs/lib';
+import axios from 'axios';
 import { Connection } from 'typeorm';
 import { Card } from '../../entity';
 import { Database } from './database';
@@ -9,9 +10,9 @@ describe('Job', () => {
   let connection: Connection;
   let db: Database;
   let job: Job;
-  let mockCpApi: CounterpartyClientService;
 
   describe('readNewMonacard', () => {
+    let mockCpApi: CounterpartyClientService;
     beforeAll(async () => {
       mockCpApi = {
         getIssuancesTxIndex: jest.fn(),
@@ -67,6 +68,29 @@ describe('Job', () => {
       const cards = await cardRepo.find();
       expect(cards).toHaveLength(1);
       expect(cards[0].assetLongname).toBe('updated asset longname.');
+    });
+  });
+
+  describe('syncBanCardList', () => {
+    beforeAll(async () => {
+      db = new Database();
+      job = new Job(db.getConnection());
+      connection = await db.getConnection();
+    });
+
+    beforeEach(async () => {
+      await connection.createEntityManager().clear(Card);
+    });
+
+    afterAll(async () => {
+      await db.tearDown();
+    });
+    it('Do nothing when banlistUrl is not set.', async () => {
+      jest.mock('axios');
+      const getApiMock = jest.spyOn(axios, 'get').mockName('axios-get');
+
+      await job.syncBanCardList();
+      expect(getApiMock).not.toHaveBeenCalled();
     });
   });
 });

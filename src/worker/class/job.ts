@@ -17,6 +17,15 @@ export class Job {
     }
   }
 
+  /**
+   * Read new monacards and upsert its into database.
+   * @async
+   * @method
+   * @name readNewMonacard
+   * @kind method
+   * @memberof Job
+   * @returns {Promise<void>}
+   */
   async readNewMonacard(): Promise<void> {
     if (!this.connection) {
       throw new Error('Invalid connection.');
@@ -101,5 +110,24 @@ export class Job {
     } catch (error) {
       throw error;
     }
+  }
+
+  /**
+   * Fetch ban card list and sync status to ban.
+   * Fetch from other monacard API url.
+   * e.g. https://card.mona.jp/api/ban_list
+   * @async
+   * @method
+   * @name syncBanCardList
+   * @kind method
+   * @memberof Job
+   * @returns {Promise<void>}
+   */
+  async syncBanCardList(banlistUrl?: string): Promise<void> {
+    if (!banlistUrl) {
+      console.info('[syncBanCardList] Settings not to sync');
+      return;
+    }
+    return;
   }
 }
