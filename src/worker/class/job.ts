@@ -4,6 +4,8 @@ import { Card } from '../../entity';
 import { Connection } from 'typeorm';
 import { Database } from './database';
 import { Logger } from '@nestjs/common';
+import axios from 'axios';
+import { BanListResponse } from '../../modules/v1';
 
 export class Job {
   private readonly logger = new Logger(Job.name);
@@ -125,8 +127,13 @@ export class Job {
    */
   async syncBanCardList(banlistUrl?: string): Promise<void> {
     if (!banlistUrl) {
-      console.info('[syncBanCardList] Settings not to sync');
+      this.logger.log('[syncBanCardList] Settings not to sync');
       return;
+    }
+
+    const response = await axios.get<BanListResponse>(banlistUrl);
+    if (!response) {
+      throw new Error('Faid to connect API.');
     }
     return;
   }

@@ -72,6 +72,8 @@ describe('Job', () => {
   });
 
   describe('syncBanCardList', () => {
+    jest.mock('axios');
+    const getApiMock = jest.spyOn(axios, 'get').mockName('axios-get');
     beforeAll(async () => {
       db = new Database();
       job = new Job(db.getConnection());
@@ -82,15 +84,23 @@ describe('Job', () => {
       await connection.createEntityManager().clear(Card);
     });
 
+    afterEach(() => {
+      jest.resetAllMocks();
+    });
+
     afterAll(async () => {
       await db.tearDown();
     });
     it('Do nothing when banlistUrl is not set.', async () => {
-      jest.mock('axios');
-      const getApiMock = jest.spyOn(axios, 'get').mockName('axios-get');
-
       await job.syncBanCardList();
       expect(getApiMock).not.toHaveBeenCalled();
+      await job.syncBanCardList('');
+      expect(getApiMock).not.toHaveBeenCalled();
+    });
+
+    it('Should throw error when banlistUrl is invalid.', async () => {
+      await expect(job.syncBanCardList('invalid_url')).rejects.toThrowError();
+      expect(getApiMock).toHaveBeenCalled();
     });
   });
 });
