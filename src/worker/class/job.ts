@@ -130,11 +130,38 @@ export class Job {
       this.logger.log('[syncBanCardList] Settings not to sync');
       return;
     }
+    if (!this.connection) {
+      throw new Error('Invalid connection.');
+    }
+    const connect = await this.connection;
 
     const response = await axios.get<BanListResponse>(banlistUrl);
-    if (!response) {
+    if (!response.data) {
       throw new Error('Faid to connect API.');
     }
+
+    const banList = response.data['list'];
+
+    const validStatus = 'good';
+    const banAssetList = banList.map((v) => v.asset);
+    const cardRepository = connect.getRepository(Card);
+    const qb = cardRepository.createQueryBuilder('card');
+    qb.where('card.status=:status', { status: validStatus });
+    qb.andWhere('card.asset IN (:...assetList)', { assetList: banAssetList });
+
+    const targets = await qb.getMany();
+
+    const updatedTargets: Card[] = [];
+    targets.forEach((t) => {
+      const banObj = banList.find((ban) => ban.asset === t.asset);
+      if (!banObj) {
+        return;
+      }
+      updatedTargets.push({ ...t, status: banObj.status });
+    });
+
+    await cardRepository.save(updatedTargets);
+
     return;
   }
 }

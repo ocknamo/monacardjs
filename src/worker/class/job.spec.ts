@@ -1,4 +1,4 @@
-import { CounterpartyClientService } from '@monacardjs/lib';
+import { CounterpartyClientService, getMockCard } from '@monacardjs/lib';
 import { mockIssuance } from '@monacardjs/lib';
 import axios from 'axios';
 import { Connection } from 'typeorm';
@@ -74,6 +74,24 @@ describe('Job', () => {
   describe('syncBanCardList', () => {
     jest.mock('axios');
     const getApiMock = jest.spyOn(axios, 'get').mockName('axios-get');
+    const mockBanList = [
+      {
+        asset: 'A7329867067985527843',
+        status: 'displeasure',
+        update_time: '1656051227',
+      },
+      {
+        asset: 'KISHIDASOURI',
+        status: 'publicity',
+        update_time: '1653739990',
+      },
+      {
+        asset: 'A1889336827968921143',
+        status: 'delete',
+        update_time: '1649835871',
+      },
+    ];
+
     beforeAll(async () => {
       db = new Database();
       job = new Job(db.getConnection());
@@ -101,6 +119,54 @@ describe('Job', () => {
     it('Should throw error when banlistUrl is invalid.', async () => {
       await expect(job.syncBanCardList('invalid_url')).rejects.toThrowError();
       expect(getApiMock).toHaveBeenCalled();
+    });
+
+    it('Should throw error when response data is falsy.', async () => {
+      getApiMock.mockResolvedValueOnce({ data: null });
+      await expect(job.syncBanCardList('valid_url')).rejects.toThrowError(
+        'Faid to connect API.',
+      );
+      expect(getApiMock).toHaveBeenCalledWith('valid_url');
+    });
+
+    it('Should get ban list from url and set status to DB.', async () => {
+      let mockCards: Card[] = [];
+
+      // target cards
+      for (let i = 0; i < 3; i++) {
+        mockCards[i] = getMockCard(String(i));
+        mockCards[i].asset = mockBanList[i].asset;
+        mockCards[i].status = 'good';
+      }
+
+      // non target card
+      mockCards[3] = getMockCard('3');
+      mockCards[3].status = 'good';
+
+      const cardRepo = connection.getRepository(Card);
+      mockCards = await cardRepo.save(mockCards);
+      expect(mockCards[0].status).toBe('good');
+      expect(mockCards[1].status).toBe('good');
+      expect(mockCards[2].status).toBe('good');
+      expect(mockCards[3].status).toBe('good');
+
+      getApiMock.mockResolvedValueOnce({ data: { list: mockBanList } });
+      await job.syncBanCardList('valid_url');
+      expect(getApiMock).toHaveBeenCalledWith('valid_url');
+
+      const results = await cardRepo.createQueryBuilder().getMany();
+
+      // targets
+      const res1 = results.find((res) => res.asset === mockCards[0].asset);
+      expect(res1?.status).toBe(mockBanList[0].status);
+      const res2 = results.find((res) => res.asset === mockCards[1].asset);
+      expect(res2?.status).toBe(mockBanList[1].status);
+      const res3 = results.find((res) => res.asset === mockCards[2].asset);
+      expect(res3?.status).toBe(mockBanList[2].status);
+
+      // non target
+      const res4 = results.find((res) => res.asset === mockCards[3].asset);
+      expect(res4?.status).toBe('good');
     });
   });
 });
