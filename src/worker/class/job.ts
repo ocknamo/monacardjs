@@ -67,7 +67,6 @@ export class Job {
               i.issuer,
               '',
               desc.addDescription,
-              i.status,
               desc.tag,
               desc.cid,
               desc.ver,

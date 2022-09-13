@@ -9,7 +9,6 @@ export const getMockCard = (suffix: string) =>
     `issuer_${suffix}`,
     `imgur_${suffix}`,
     `description_${suffix}`,
-    `status_${suffix}`,
     `tag_${suffix}`,
     `cid_${suffix}`,
     `ver_${suffix}`,
