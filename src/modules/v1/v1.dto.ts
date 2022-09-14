@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { Transform } from 'class-transformer';
 import { IsNumber, IsOptional, IsString } from 'class-validator';
-import { escapeHtml } from '@monacardjs/lib';
+import { dateToUnixTimeSeconds, escapeHtml } from '@monacardjs/lib';
 import { Card } from 'src/entity';
 
 // TODO: OPEN API
@@ -63,14 +63,14 @@ export class CardDetailResponse {
     this.owner_name = escapeHtml(card.issuer ?? '');
     this.imgur_url = escapeHtml(card.imgur ?? '');
     this.add_description = escapeHtml(card.description ?? '');
-    this.tw_id = escapeHtml(''); // 未実装
-    this.tw_name = escapeHtml(''); // 未実装
+    this.tw_id = ''; // 未実装
+    this.tw_name = ''; // 未実装
     this.tag = escapeHtml(card.tag);
     this.cid = escapeHtml(card.cid);
     this.ver = escapeHtml(card.ver.toString());
     this.is_good_status = card.status === 'ok';
-    this.regist_time = card.registTime!.getTime().toString();
-    this.update_time = card.updateTime!.getTime().toString();
+    this.regist_time = dateToUnixTimeSeconds(card.registTime);
+    this.update_time = dateToUnixTimeSeconds(card.updateTime);
   }
 }
 
@@ -88,7 +88,7 @@ export class BanResponse {
   constructor(card: Card) {
     this.asset = card.asset;
     this.status = card.status;
-    this.update_time = card.updateTime!.getTime().toString();
+    this.update_time = dateToUnixTimeSeconds(card.updateTime);
   }
 }
 

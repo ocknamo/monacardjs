@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
+import { dateToUnixTimeSeconds } from '@monacardjs/lib';
 import { Transform } from 'class-transformer';
 import { IsNumber, IsOptional } from 'class-validator';
 import { CidInterface } from './cid.interface';
@@ -21,7 +22,7 @@ export class CidResponse {
   update_time: string;
   constructor(cid: string, updateTime: Date) {
     this.cid = cid;
-    this.update_time = updateTime.getTime().toString();
+    this.update_time = dateToUnixTimeSeconds(updateTime);
   }
 }
 
