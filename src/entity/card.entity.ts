@@ -37,7 +37,7 @@ export class Card {
     default: 'good',
     comment: 'good or reason of ban',
   })
-  status: string;
+  status = 'good';
 
   @Column({ default: '' })
   tag: string;
@@ -68,7 +68,6 @@ export class Card {
     issuer: string | null,
     imgur: string | null,
     description: string | null,
-    status: string,
     tag: string,
     cid: string,
     ver: string,
@@ -82,7 +81,6 @@ export class Card {
     this.issuer = issuer;
     this.imgur = imgur;
     this.description = description;
-    this.status = status;
     this.tag = tag;
     this.cid = cid;
     this.ver = ver;

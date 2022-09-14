@@ -76,10 +76,20 @@ When development or watch mode you can test api at `http://localhost:3000/`.
 
 Worker is not nestjs application. So you can run it as just JavaScript or typescript script.
 
+### read-new-monacard
+
 ``` bash
 // example
 $ yarn build
-$ node ./dist/src/worker/read-new-monacard.js
+$ node ./dist/src/worker/bin/read-new-monacard.js
+```
+
+### sync-ban-card-list
+
+``` bash
+// example
+$ yarn build
+$ node ./dist/src/worker/bin/sync-ban-card-list.js
 ```
 
 ## Setting of environment value

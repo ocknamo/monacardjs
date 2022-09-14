@@ -5,6 +5,7 @@ import { AppModule } from './../src/app.module';
 
 describe('AppController (e2e)', () => {
   let app: INestApplication;
+  let server: any;
 
   beforeAll(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
@@ -19,9 +20,17 @@ describe('AppController (e2e)', () => {
     app.close();
   });
 
+  beforeEach(async () => {
+    server = app.getHttpServer();
+  });
+
+  afterEach(async () => {
+    server.close();
+  });
+
   describe('v1', () => {
     it('/api/v1/card_list (GET)', () => {
-      return request(app.getHttpServer())
+      return request(server)
         .get('/api/v1/card_list')
         .expect(200)
         .expect({
@@ -30,7 +39,7 @@ describe('AppController (e2e)', () => {
     });
 
     it('/api/v1/card_detail (GET)', () => {
-      return request(app.getHttpServer())
+      return request(server)
         .get('/api/v1/card_detail?assets=assetLongname_03')
         .expect(200)
         .expect({
@@ -59,7 +68,7 @@ describe('AppController (e2e)', () => {
     });
 
     it('/api/v1/card_detail (POST)', () => {
-      return request(app.getHttpServer())
+      return request(server)
         .post('/api/v1/card_detail_post')
         .send({ assets: 'assetLongname_01' })
         .expect(200)
@@ -89,7 +98,7 @@ describe('AppController (e2e)', () => {
     });
 
     it('/api/v1/ban_list (GET)', () => {
-      return request(app.getHttpServer())
+      return request(server)
         .get('/api/v1/ban_list')
         .expect(200)
         .expect({
@@ -111,7 +120,7 @@ describe('AppController (e2e)', () => {
 
   describe('cid', () => {
     it('/api/v1/cid_list', () => {
-      return request(app.getHttpServer())
+      return request(server)
         .get('/api/v1/cid_list')
         .expect(200)
         .expect({
