@@ -20,7 +20,7 @@ export class CardDetailsRequest {
 
   @IsOptional()
   @Transform((p) => Number(p.value))
-  @IsNumber()
+  @IsNumber({ allowNaN: false })
   update_time?: number;
 }
 
@@ -68,7 +68,7 @@ export class CardDetailResponse {
     this.tag = escapeHtml(card.tag);
     this.cid = escapeHtml(card.cid);
     this.ver = escapeHtml(card.ver.toString());
-    this.is_good_status = card.status === 'ok';
+    this.is_good_status = card.status === 'good';
     this.regist_time = dateToUnixTimeSeconds(card.registTime);
     this.update_time = dateToUnixTimeSeconds(card.updateTime);
   }

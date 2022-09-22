@@ -23,8 +23,8 @@ describe('V1Services', () => {
 
   describe('findAllNames', () => {
     it('should find all names', async () => {
-      const mockCard1 = getMockCard('01');
-      const mockCard2 = getMockCard('02');
+      const mockCard1 = getMockCard('1');
+      const mockCard2 = getMockCard('2');
 
       await repository.save([mockCard1, mockCard2]);
 
@@ -35,8 +35,8 @@ describe('V1Services', () => {
     });
 
     it('should find all names without long name', async () => {
-      const mockCard1 = getMockCard('01');
-      const mockCard2 = getMockCard('02');
+      const mockCard1 = getMockCard('1');
+      const mockCard2 = getMockCard('2');
 
       await repository.save([
         { ...mockCard1, assetLongname: null },
@@ -52,9 +52,9 @@ describe('V1Services', () => {
 
   describe('findAll', () => {
     it('should find all with assets', async () => {
-      const mockCard1 = getMockCard('01');
-      const mockCard2 = getMockCard('02');
-      const mockCard3 = getMockCard('03');
+      const mockCard1 = getMockCard('1');
+      const mockCard2 = getMockCard('2');
+      const mockCard3 = getMockCard('3');
 
       await repository.save([mockCard1, mockCard2, mockCard3]);
 
@@ -74,9 +74,9 @@ describe('V1Services', () => {
     });
 
     it('should find all with assets by asset long name', async () => {
-      const mockCard1 = getMockCard('01');
-      const mockCard2 = getMockCard('02');
-      const mockCard3 = getMockCard('03');
+      const mockCard1 = getMockCard('1');
+      const mockCard2 = getMockCard('2');
+      const mockCard3 = getMockCard('3');
 
       await repository.save([mockCard1, mockCard2, mockCard3]);
 
@@ -96,9 +96,9 @@ describe('V1Services', () => {
     });
 
     it('should find all with tag', async () => {
-      const mockCard1 = { ...getMockCard('01'), tag: 'tag1' };
-      const mockCard2 = { ...getMockCard('02'), tag: 'tag1' };
-      const mockCard3 = { ...getMockCard('03'), tag: 'tag2' };
+      const mockCard1 = { ...getMockCard('1'), tag: 'tag1' };
+      const mockCard2 = { ...getMockCard('2'), tag: 'tag1' };
+      const mockCard3 = { ...getMockCard('3'), tag: 'tag2' };
 
       await repository.save([mockCard1, mockCard2, mockCard3]);
 
@@ -120,15 +120,15 @@ describe('V1Services', () => {
     it('should find all with update time', async () => {
       const now = Date.now();
       const mockCard1 = {
-        ...getMockCard('01'),
+        ...getMockCard('1'),
         updateTime: new Date(now - 3000),
       };
       const mockCard2 = {
-        ...getMockCard('02'),
+        ...getMockCard('2'),
         updateTime: new Date(now - 2000),
       };
       const mockCard3 = {
-        ...getMockCard('03'),
+        ...getMockCard('3'),
         updateTime: new Date(now - 1000),
       };
 
@@ -167,7 +167,7 @@ describe('V1Services', () => {
     });
 
     it('should fail to find all with no params', async () => {
-      const mockCard1 = getMockCard('01');
+      const mockCard1 = getMockCard('1');
 
       await repository.save(mockCard1);
 
@@ -181,7 +181,7 @@ describe('V1Services', () => {
     });
 
     it('should fail to find all with invalid assets', async () => {
-      const mockCard1 = getMockCard('01');
+      const mockCard1 = getMockCard('1');
 
       await repository.save(mockCard1);
 
@@ -211,9 +211,9 @@ describe('V1Services', () => {
 
   describe('findAllBanlist', () => {
     it('should find all ban list', async () => {
-      let mockCard1 = { ...getMockCard('01'), status: 'copyright' };
-      let mockCard2 = { ...getMockCard('02'), status: 'good' };
-      let mockCard3 = { ...getMockCard('03'), status: 'publicity' };
+      let mockCard1 = { ...getMockCard('1'), status: 'copyright' };
+      let mockCard2 = { ...getMockCard('2'), status: 'good' };
+      let mockCard3 = { ...getMockCard('3'), status: 'publicity' };
 
       [mockCard1, mockCard2, mockCard3] = await repository.save([
         mockCard1,

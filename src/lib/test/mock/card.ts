@@ -2,16 +2,16 @@ import { Card } from '../../../entity';
 
 export const getMockCard = (suffix: string) =>
   new Card(
-    `asset_${suffix}`,
-    `assetLongname_${suffix}`,
-    `assetGroup_${suffix}`,
-    `name_${suffix}`,
-    `issuer_${suffix}`,
-    `imgur_${suffix}`,
-    `description_${suffix}`,
-    `tag_${suffix}`,
-    `cid_${suffix}`,
-    `ver_${suffix}`,
-    `txHash_${suffix}`,
+    `asset${suffix}`,
+    `assetLongname${suffix}`,
+    `assetGroup${suffix}`,
+    `name${suffix}`,
+    `issuer${suffix}`,
+    `imgur${suffix}`,
+    `description${suffix}`,
+    `tag${suffix}`,
+    `cid${suffix}`,
+    `ver${suffix}`,
+    `txHash${suffix}`,
     9999,
   );
