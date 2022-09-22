@@ -21,9 +21,9 @@ describe('CidServices', () => {
   });
 
   it('should get all cids', async () => {
-    let mockCard1 = getMockCard('01');
-    let mockCard2 = getMockCard('02');
-    let mockCard3 = getMockCard('03');
+    let mockCard1 = getMockCard('1');
+    let mockCard2 = getMockCard('2');
+    let mockCard3 = getMockCard('3');
 
     [mockCard1, mockCard2, mockCard3] = await repository.save([
       { ...mockCard1, status: 'good' },
@@ -49,9 +49,9 @@ describe('CidServices', () => {
   });
 
   it('should get all cids without invalid status', async () => {
-    let mockCard1 = getMockCard('01');
-    let mockCard2 = getMockCard('02');
-    let mockCard3 = getMockCard('03');
+    let mockCard1 = getMockCard('1');
+    let mockCard2 = getMockCard('2');
+    let mockCard3 = getMockCard('3');
 
     [mockCard1, mockCard2, mockCard3] = await repository.save([
       { ...mockCard1, status: 'good' },
@@ -71,17 +71,17 @@ describe('CidServices', () => {
   it('should get all cids with update time', async () => {
     const now = Date.now();
     const mockCard1 = {
-      ...getMockCard('01'),
+      ...getMockCard('1'),
       status: 'good',
       updateTime: new Date(now - 3000),
     };
     const mockCard2 = {
-      ...getMockCard('02'),
+      ...getMockCard('2'),
       status: 'good',
       updateTime: new Date(now - 2000),
     };
     const mockCard3 = {
-      ...getMockCard('03'),
+      ...getMockCard('3'),
       status: 'good',
       updateTime: new Date(now - 1000),
     };
@@ -139,9 +139,9 @@ describe('CidServices', () => {
   });
 
   it('should get all cids without empty cid', async () => {
-    let mockCard1 = getMockCard('01');
-    let mockCard2 = getMockCard('02');
-    let mockCard3 = getMockCard('03');
+    let mockCard1 = getMockCard('1');
+    let mockCard2 = getMockCard('2');
+    let mockCard3 = getMockCard('3');
 
     [mockCard1, mockCard2, mockCard3] = await repository.save([
       { ...mockCard1, status: 'good' },

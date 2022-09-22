@@ -10,7 +10,7 @@ import { CidInterface } from './cid.interface';
 export class CidRequest {
   @IsOptional()
   @Transform((p) => Number(p.value))
-  @IsNumber()
+  @IsNumber({ allowNaN: false })
   update_time?: number;
 }
 
