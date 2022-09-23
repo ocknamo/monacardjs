@@ -21,6 +21,17 @@ export class CounterpartyClientService {
     return result[0];
   }
 
+  async getAssetInfos(assetNames: string[]): Promise<AssetInfo[]> {
+    const { result } = await this.readApi<JsonRpcResponseBase<AssetInfo[]>>(
+      'get_assets_info',
+      {
+        assetsList: assetNames,
+      },
+    );
+
+    return result;
+  }
+
   async getBroadcast(txHash: string): Promise<Broadcast> {
     const { result } = await this.readProxyApi<
       JsonRpcResponseBase<Broadcast[]>

@@ -46,32 +46,34 @@ export class Job {
 
     const api = this.cpApi || new CounterpartyClientService(counterpartyApiUrl);
     const issuances = await api.getIssuancesTxIndex(lastTxIndex ?? 0);
+    const infos = await api.getAssetInfos(issuances.map((i) => i.asset));
 
     const cards = issuances
-      .map((i) => {
-        const desc = parseDescription(i.description);
+      .map((issuance) => {
+        const info = infos.find((inf) => inf.asset === issuance.asset);
+        const desc = parseDescription(issuance.description);
 
         if (2000 < (desc?.addDescription.length || 0)) {
           this.logger.log(
             `[readNewMonacard] Over 2000 description. asset: `,
-            i.asset,
+            issuance.asset,
           );
         }
 
-        return desc
+        return desc && info
           ? new Card(
-              i.asset,
-              i.asset_longname ?? null,
-              i.asset_group ?? null,
+              info.asset,
+              info.asset_longname ?? null,
+              info.assetgroup ?? null,
               desc.cardName,
-              i.issuer,
+              issuance.issuer,
               '',
               desc.addDescription,
               desc.tag,
               desc.cid,
               desc.ver,
-              i.tx_hash,
-              i.tx_index,
+              issuance.tx_hash,
+              issuance.tx_index,
             )
           : undefined;
       })

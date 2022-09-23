@@ -46,6 +46,30 @@ describe('CounterpartyClientService', () => {
     });
   });
 
+  describe('getAssetInfos', () => {
+    it('should be get asset infos', async () => {
+      const result = await counterpartyClientService.getAssetInfos([
+        'MPCHAIN',
+        'OTHER',
+      ]);
+
+      expect(result).toEqual(['mock response']);
+
+      expect(mockAxios.post).toHaveBeenCalledWith(
+        'api_url',
+        {
+          jsonrpc,
+          id,
+          method: 'get_assets_info',
+          params: {
+            assetsList: ['MPCHAIN', 'OTHER'],
+          },
+        },
+        { headers },
+      );
+    });
+  });
+
   describe('getBroadcast', () => {
     it('should be get broadcast', async () => {
       const result = await counterpartyClientService.getBroadcast(

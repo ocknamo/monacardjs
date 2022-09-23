@@ -128,7 +128,7 @@ $ yarn format
 ## Build docker image
 
 ```bash
-$ docker image build -t example/monacoinjs:0.0.1 .
+$ docker image build -t example/monacardjs:0.0.1 .
 ```
 
 ## License
