@@ -74,7 +74,7 @@ When development or watch mode you can test api at `http://localhost:3000/`.
 
 ## Running the worker
 
-Worker is not nestjs application. So you can run it as just JavaScript or typescript script.
+Worker is not nestjs application. So you can run it as just JavaScript or TypeScript script.
 
 ### read-new-monacard
 
