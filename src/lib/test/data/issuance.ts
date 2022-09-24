@@ -1,4 +1,4 @@
-import { Issuance } from '@monacardjs/lib';
+import { AssetInfo, Issuance } from '@monacardjs/lib';
 
 const mockDescription = {
   monacard: {
@@ -35,4 +35,20 @@ export const mockIssuance: Issuance = {
   call_price: 11111,
   asset_longname: 'asset_longname',
   asset_group: 'asset_group',
+};
+
+export const mockAssetInfo: AssetInfo = {
+  locked: true,
+  owner: 'owner',
+  assetgroup: 'assetgroup',
+  description: JSON.stringify(mockDescription),
+  divisible: true,
+  reassignable: false,
+  supply: 100,
+  fungible: true,
+  asset: 'asset',
+  issuer: 'issuer',
+  asset_longname: 'asset_longname',
+  listed: true,
+  vendable: true,
 };

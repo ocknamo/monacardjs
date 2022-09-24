@@ -1,4 +1,8 @@
-import { CounterpartyClientService, getMockCard } from '@monacardjs/lib';
+import {
+  CounterpartyClientService,
+  getMockCard,
+  mockAssetInfo,
+} from '@monacardjs/lib';
 import { mockIssuance } from '@monacardjs/lib';
 import axios from 'axios';
 import { Connection } from 'typeorm';
@@ -16,6 +20,7 @@ describe('Job', () => {
     beforeAll(async () => {
       mockCpApi = {
         getIssuancesTxIndex: jest.fn(),
+        getAssetInfos: jest.fn(),
       } as unknown as CounterpartyClientService;
       db = new Database();
       job = new Job(db.getConnection(), mockCpApi);
@@ -31,12 +36,21 @@ describe('Job', () => {
     });
 
     it('should be fetch and set 10 monacards', async () => {
-      const mockResponse = new Array(10)
+      const mockIssuanceResponse = new Array(10)
         .fill(mockIssuance)
         .map((v, i) => ({ ...v, asset: v.asset + i }));
+      const mockInfosResponse = new Array(10)
+        .fill(mockAssetInfo)
+        .map((v, i) => ({ ...v, asset: v.asset + i }));
+
       mockCpApi.getIssuancesTxIndex = jest
         .fn()
-        .mockReturnValueOnce(mockResponse);
+        .mockReturnValueOnce(mockIssuanceResponse);
+
+      mockCpApi.getAssetInfos = jest
+        .fn()
+        .mockReturnValueOnce(mockInfosResponse);
+
       await job.readNewMonacard();
 
       const cardRepo = await connection.getRepository(Card);
@@ -46,21 +60,21 @@ describe('Job', () => {
       expect(cards).toHaveLength(10);
     });
 
-    it('should be fetch and update 10 monacards with same asset name', async () => {
-      mockCpApi.getIssuancesTxIndex = jest
+    it('should be fetch and update a monacard with same asset name', async () => {
+      mockCpApi.getIssuancesTxIndex = jest.fn().mockReturnValue([mockIssuance]);
+      mockCpApi.getAssetInfos = jest
         .fn()
-        .mockReturnValueOnce([mockIssuance]);
+        .mockReturnValueOnce([{ ...mockAssetInfo, asset: mockIssuance.asset }]);
 
       await job.readNewMonacard();
 
-      const updateMockIssuance = {
-        ...mockIssuance,
+      const updateMockInfo = {
+        ...mockAssetInfo,
+        asset: mockIssuance.asset,
         asset_longname: 'updated asset longname.',
       };
 
-      mockCpApi.getIssuancesTxIndex = jest
-        .fn()
-        .mockReturnValueOnce([updateMockIssuance]);
+      mockCpApi.getAssetInfos = jest.fn().mockReturnValueOnce([updateMockInfo]);
 
       await job.readNewMonacard();
 
