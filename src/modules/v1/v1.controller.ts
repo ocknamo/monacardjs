@@ -17,7 +17,6 @@ import {
 } from './v1.dto';
 import { V1Service } from './v1.service';
 
-// Set cache-control value from config.
 const header: KeyValue = {
   key: 'cache-control',
   value: 'max-age=60, stale-while-revalidate=180, must-revalidate',
