@@ -16,7 +16,7 @@ describe('AppController', () => {
 
   describe('root', () => {
     it('should return "114514"', () => {
-      expect(appController.getHealth()).toBe('114514');
+      expect(appController.getHealth()).toEqual({ message: '114514' });
     });
   });
 });

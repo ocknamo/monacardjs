@@ -40,6 +40,7 @@ export class V1Service {
 
     const qb = this.cardsRepository.createQueryBuilder();
 
+    // TODO: Fix bug of multi queries.
     if (assetArr && 0 < assetArr.length) {
       // トークンの命名規則に合っていない場合
       assetArr.forEach((as) => {
@@ -61,6 +62,7 @@ export class V1Service {
       qb.andWhere('tag = :tag', { tag: tag });
     }
 
+    // TODO: Fix bug of unixtime.
     if (update_time) {
       qb.andWhere('updateTime > :updateTime', {
         updateTime: new Date(update_time),

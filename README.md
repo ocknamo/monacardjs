@@ -70,7 +70,7 @@ $ yarn start:dev
 $ yarn start:prod
 ```
 
-When development or watch mode you can test api at `http://localhost:3000/`.
+When development or watch mode you can test api at `http://localhost:3000/api`.
 
 ## Running the worker
 
