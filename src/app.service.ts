@@ -1,8 +1,9 @@
 import { Injectable } from '@nestjs/common';
+import { HealthResponse } from './app.controller';
 
 @Injectable()
 export class AppService {
-  getHealth(): string {
-    return '114514';
+  getHealth(): HealthResponse {
+    return { message: '114514' };
   }
 }
