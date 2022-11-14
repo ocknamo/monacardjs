@@ -118,42 +118,42 @@ describe('V1Services', () => {
     });
 
     it('should find all with update time', async () => {
-      const now = Date.now();
+      const nowSec = Date.now() / 1000;
       const mockCard1 = {
         ...getMockCard('1'),
-        updateTime: new Date(now - 3000),
+        updateTime: new Date((nowSec - 3000) * 1000),
       };
       const mockCard2 = {
         ...getMockCard('2'),
-        updateTime: new Date(now - 2000),
+        updateTime: new Date((nowSec - 2000) * 1000),
       };
       const mockCard3 = {
         ...getMockCard('3'),
-        updateTime: new Date(now - 1000),
+        updateTime: new Date((nowSec - 1000) * 1000),
       };
 
       await repository.save([mockCard1, mockCard2, mockCard3]);
 
       let res = await service.findAll({
-        update_time: now,
+        update_time: nowSec,
       });
       expect(res).toHaveLength(0);
 
       res = await service.findAll({
-        update_time: now - 1001,
+        update_time: nowSec - 1001,
       });
       expect(res).toHaveLength(1);
       expect(res[0]).toEqual(mockCard3);
 
       res = await service.findAll({
-        update_time: now - 2001,
+        update_time: nowSec - 2001,
       });
       expect(res).toHaveLength(2);
       expect(res[0]).toEqual(mockCard3);
       expect(res[1]).toEqual(mockCard2);
 
       res = await service.findAll({
-        update_time: now - 3001,
+        update_time: nowSec - 3001,
       });
       expect(res).toHaveLength(3);
       expect(res[0]).toEqual(mockCard3);
@@ -161,7 +161,7 @@ describe('V1Services', () => {
       expect(res[2]).toEqual(mockCard1);
 
       res = await service.findAll({
-        update_time: now - 1000,
+        update_time: nowSec - 1000,
       });
       expect(res).toHaveLength(0);
     });

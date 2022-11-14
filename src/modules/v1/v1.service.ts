@@ -62,10 +62,9 @@ export class V1Service {
       qb.andWhere('tag = :tag', { tag: tag });
     }
 
-    // TODO: Fix bug of unixtime.
     if (update_time) {
       qb.andWhere('updateTime > :updateTime', {
-        updateTime: new Date(update_time),
+        updateTime: new Date(update_time * 1000),
       });
     }
 
