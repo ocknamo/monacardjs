@@ -19,6 +19,7 @@
     "paths": {
       "@monacardjs/lib": ["src/lib"]
     },
-    "strict": true
+    "strict": true,
+    "resolveJsonModule": true
   }
 }

@@ -5,8 +5,6 @@ import { dateToUnixTimeSeconds, escapeHtml } from '@monacardjs/lib';
 import { Card } from 'src/entity';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 
-// TODO: OPEN API
-
 /**
  * Request
  */
