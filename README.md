@@ -81,7 +81,7 @@ Worker is not nestjs application. So you can run it as just JavaScript or TypeSc
 ``` bash
 // example
 $ yarn build
-$ node ./dist/src/worker/bin/read-new-monacard.js
+$ node ./dist/src/worker/app/read-new-monacard.js
 ```
 
 ### sync-ban-card-list
@@ -89,7 +89,7 @@ $ node ./dist/src/worker/bin/read-new-monacard.js
 ``` bash
 // example
 $ yarn build
-$ node ./dist/src/worker/bin/sync-ban-card-list.js
+$ node ./dist/src/worker/app/sync-ban-card-list.js
 ```
 
 ## Setting of environment value
