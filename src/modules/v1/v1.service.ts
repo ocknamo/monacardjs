@@ -29,6 +29,15 @@ export class V1Service {
       .filter((nullable) => nullable !== null) as string[];
   }
 
+  /**
+   * Find all cards matched query.
+   * If there are multiple parameters, execute an AND search.
+   * @param dto : Search query
+   * - assets: A string of asset names separated by commas.
+   * - tag: Search for assets with the set tag.
+   * - updateTime: Search for cards newer then the updateTime.
+   * @returns : Cards entities
+   */
   findAll(dto: CardDetailsRequest): Promise<Card[]> {
     const { assets, tag, update_time } = dto;
 
@@ -40,7 +49,6 @@ export class V1Service {
 
     const qb = this.cardsRepository.createQueryBuilder();
 
-    // TODO: Fix bug of multi queries.
     if (assetArr && 0 < assetArr.length) {
       // トークンの命名規則に合っていない場合
       assetArr.forEach((as) => {
@@ -52,10 +60,9 @@ export class V1Service {
         }
       });
 
-      qb.where('asset IN(:...assets)', { assets: assetArr }).orWhere(
-        'assetLongname IN(:...assets)',
-        { assets: assetArr },
-      );
+      qb.where('(asset IN(:...assets) OR assetLongname IN(:...assets))', {
+        assets: assetArr,
+      });
     }
 
     if (tag) {

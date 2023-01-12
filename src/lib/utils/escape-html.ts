@@ -1,4 +1,5 @@
 /**
+ * TODO: Use libraries instead of proprietary implementations.
  * Escape html characters.
  * '&' to '&amp;'
  * '<' to '&lt;'
