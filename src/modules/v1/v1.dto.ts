@@ -19,7 +19,7 @@ export class CardDetailsRequest {
   assets?: string;
 
   @ApiPropertyOptional({
-    description: 'Tag information.',
+    description: 'Tag string. Only single tag.',
     example: 'モナコインちゃん',
     type: String,
   })
