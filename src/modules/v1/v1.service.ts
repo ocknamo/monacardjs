@@ -38,7 +38,7 @@ export class V1Service {
    * - updateTime: Search for cards newer then the updateTime.
    * @returns : Cards entities
    */
-  findAll(dto: CardDetailsRequest): Promise<Card[]> {
+  async findAll(dto: CardDetailsRequest): Promise<Card[]> {
     const { assets, tag, update_time } = dto;
 
     if (!assets && !tag && !update_time) {
@@ -66,7 +66,7 @@ export class V1Service {
     }
 
     if (tag) {
-      qb.andWhere('tag = :tag', { tag: tag });
+      qb.andWhere('tag like :tag', { tag: `%${tag}%` });
     }
 
     if (update_time) {
@@ -75,7 +75,16 @@ export class V1Service {
       });
     }
 
-    return qb.orderBy({ id: 'DESC' }).getMany();
+    const cards = await qb.orderBy({ id: 'DESC' }).getMany();
+
+    if (!tag) {
+      return cards;
+    }
+
+    return cards.filter((c) => {
+      const tags = c.tag.split(',');
+      return tags.includes(tag);
+    });
   }
 
   findAllBanlist(): Promise<Card[]> {
