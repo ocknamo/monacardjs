@@ -6,6 +6,21 @@ Nodejs implementation of Monacard.
 It uses JavaScript, is built with TypeScript.
 This is implemented with reference to the [MonacardHub](https://github.com/nachat1/MonacardHub).
 
+## Monorepo
+
+Monorepo with yarn Workspaces.
+
+Repository structure(WIP).
+
+- monacardjs
+  - api
+  - workers
+    - read-new-monacard
+    - sync-ban-card-list
+  - lib(common)
+  - standalone(TBD)
+  - front(TBD)
+
 ## Installation
 
 ```bash
